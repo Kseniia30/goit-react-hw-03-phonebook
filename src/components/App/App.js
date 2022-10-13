@@ -40,7 +40,22 @@ export class AppForm extends Component {
         this.setState(prevValue => ({
             contacts: prevValue.contacts.filter(contact => contact.id !== id)
         }))
+    }
 
+    componentDidMount() {
+        const parsedContacts = JSON.parse(localStorage.getItem("contacts"))
+        if (parsedContacts) {
+            this.setState({contacts: parsedContacts})
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const newContacts = this.state.contacts
+        const prevContacts = prevState.contacts
+
+        if (newContacts !== prevContacts) {
+            localStorage.setItem("contacts", JSON.stringify(newContacts))
+        }
     }
 
     render() {
